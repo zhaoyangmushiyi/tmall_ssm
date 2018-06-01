@@ -68,7 +68,7 @@
     </div>
 
     <div class="pageDiv">
-        <%//@include file="../include/admin/adminPage.jsp" %>
+        <%@include file="../include/admin/adminPage.jsp" %>
     </div>
 
     <div class="panel panel-warning addDiv">
@@ -81,7 +81,7 @@
                         <td><input id="name" name="name" type="text" class="form-control"></td>
                     </tr>
                     <tr>
-                        <td>分类圖片</td>
+                        <td>分类图片</td>
                         <td>
                             <input id="categoryPic" accept="image/*" type="file" name="image"/>
                         </td>
