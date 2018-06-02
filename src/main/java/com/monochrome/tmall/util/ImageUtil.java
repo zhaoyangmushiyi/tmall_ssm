@@ -1,8 +1,10 @@
 package com.monochrome.tmall.util;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.*;
 import java.io.File;
+import java.io.IOException;
 
 public class ImageUtil {
     public static BufferedImage change2jsp(File file) {
@@ -18,6 +20,31 @@ public class ImageUtil {
             BufferedImage bufferedImage = new BufferedImage(RGB_OPAQUE, raster, false, null);
             return bufferedImage;
         }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void resizeImage(File srcFile, int width, int height, File destFile) {
+        try {
+            if (!destFile.getParentFile().exists()) {
+                destFile.mkdirs();
+            }
+            Image image = ImageIO.read(srcFile);
+            image = resizeImage(image, width, height);
+            ImageIO.write((RenderedImage) image, "jpg", destFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static Image resizeImage(Image srcImage, int width, int height) {
+        try {
+            BufferedImage bufferedImage = null;
+            bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            bufferedImage.getGraphics().drawImage(srcImage.getScaledInstance(width, height, Image.SCALE_SMOOTH), 0, 0, null);
+            return bufferedImage;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
