@@ -53,4 +53,11 @@ public class CategoryController {
         file.delete();
         return "redirect:/admin_category_list";
     }
+
+    @RequestMapping("admin_category_edit")
+    public String edit(int id, Model model) {
+        Category category = categoryService.get(id);
+        model.addAttribute("c", category);
+        return "admin/editCategory";
+    }
 }
