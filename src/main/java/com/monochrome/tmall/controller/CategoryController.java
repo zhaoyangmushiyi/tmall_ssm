@@ -4,11 +4,12 @@ import com.monochrome.tmall.service.CategoryService;
 import com.monochrome.tmall.pojo.Category;
 import com.monochrome.tmall.util.ImageUtil;
 import com.monochrome.tmall.util.Page;
-import com.monochrome.tmall.util.UploadImageFile;
+import com.monochrome.tmall.util.UploadedImageFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
@@ -32,15 +33,15 @@ public class CategoryController {
     }
 
     @RequestMapping("admin_category_add")
-    public String add(Category category, HttpSession session, UploadImageFile uploadImageFile) throws IOException {
+    public String add(Category category, HttpSession session, UploadedImageFile uploadedImageFile) throws IOException {
         categoryService.add(category);
         File imageFolder = new File(session.getServletContext().getRealPath("img/category"));
         File file = new File(imageFolder, category.getId() + ".jpg");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
-        uploadImageFile.getImage().transferTo(file);
-        BufferedImage bufferedImage = ImageUtil.change2jsp(file);
+        uploadedImageFile.getImage().transferTo(file);
+        BufferedImage bufferedImage = ImageUtil.change2jpg(file);
         ImageIO.write(bufferedImage, "jpg", file);
         return "redirect:/admin_category_list";
     }
@@ -59,5 +60,19 @@ public class CategoryController {
         Category category = categoryService.get(id);
         model.addAttribute("c", category);
         return "admin/editCategory";
+    }
+
+    @RequestMapping("admin_category_update")
+    public String update(Category category, HttpSession session, UploadedImageFile uploadedImageFile) throws IOException {
+        categoryService.update(category);
+        MultipartFile image = uploadedImageFile.getImage();
+        if (image != null && !image.isEmpty()) {
+            File imageFolder = new File(session.getServletContext().getRealPath("img/category"));
+            File file = new File(imageFolder, category.getId() + ".jpg");
+            image.transferTo(file);
+            BufferedImage bufferedImage = ImageUtil.change2jpg(file);
+            ImageIO.write(bufferedImage, "jpg", file);
+        }
+        return "redirect:/admin_category_list";
     }
 }

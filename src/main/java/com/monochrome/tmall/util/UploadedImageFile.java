@@ -2,7 +2,7 @@ package com.monochrome.tmall.util;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class UploadImageFile {
+public class UploadedImageFile {
     MultipartFile image;
 
     public MultipartFile getImage() {

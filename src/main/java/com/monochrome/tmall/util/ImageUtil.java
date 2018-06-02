@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageUtil {
-    public static BufferedImage change2jsp(File file) {
+    public static BufferedImage change2jpg(File file) {
         try {
             Image image = Toolkit.getDefaultToolkit().createImage(file.getAbsolutePath());
             PixelGrabber pixelGrabber = new PixelGrabber(image, 0, 0, -1, -1, true);
