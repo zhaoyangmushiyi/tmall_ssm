@@ -1,6 +1,7 @@
 package com.monochrome.tmall.service.impl;
 
 import com.monochrome.tmall.mapper.CategoryMapper;
+import com.monochrome.tmall.pojo.CategoryExample;
 import com.monochrome.tmall.service.CategoryService;
 import com.monochrome.tmall.pojo.Category;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +17,28 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> list() {
-        return categoryMapper.list();
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("id desc");
+        return categoryMapper.selectByExample(categoryExample);
     }
 
     @Override
     public void add(Category category) {
-        categoryMapper.add(category);
+        categoryMapper.insert(category);
     }
 
     @Override
     public void delete(int id) {
-        categoryMapper.delete(id);
+        categoryMapper.deleteByPrimaryKey(id);
     }
 
     @Override
     public Category get(int id) {
-        return categoryMapper.get(id);
+        return categoryMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public void update(Category category) {
-        categoryMapper.update(category);
+        categoryMapper.updateByPrimaryKeySelective(category);
     }
 }

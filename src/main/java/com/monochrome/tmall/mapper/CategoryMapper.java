@@ -1,18 +1,21 @@
 package com.monochrome.tmall.mapper;
 
 import com.monochrome.tmall.pojo.Category;
-
+import com.monochrome.tmall.pojo.CategoryExample;
 import java.util.List;
 
 public interface CategoryMapper {
+    int deleteByPrimaryKey(Integer id);
 
-    List<Category> list();
+    int insert(Category record);
 
-    void add(Category category);
+    int insertSelective(Category record);
 
-    void delete(int id);
+    List<Category> selectByExample(CategoryExample example);
 
-    Category get(int id);
+    Category selectByPrimaryKey(Integer id);
 
-    void update(Category category);
+    int updateByPrimaryKeySelective(Category record);
+
+    int updateByPrimaryKey(Category record);
 }
