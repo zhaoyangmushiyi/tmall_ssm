@@ -12,7 +12,7 @@
 <script>
     $(function(){
         $("#addForm").submit(function () {
-            if (!checkEmpty("name", "属性管理")) {
+            if (!checkEmpty("name", "属性名称")) {
                 return false;
             }
             return true;
