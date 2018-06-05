@@ -41,12 +41,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${ps}" var="p">
+                    <c:forEach items="${ps}" var="o">
                         <tr>
-                            <td>${p.id}</td>
-                            <td>${p.name}</td>
-                            <td><a href="admin_property_edit?id=${p.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
-                            <td><a deleteLink="true" href="admin_property_delete?id=${p.id}">
+                            <td>${o.id}</td>
+                            <td>${o.name}</td>
+                            <td><a href="admin_property_edit?id=${o.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                            <td><a deleteLink="true" href="admin_property_delete?id=${o.id}">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
                             </td>

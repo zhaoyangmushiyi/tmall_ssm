@@ -59,32 +59,32 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${ps}" var="p">
+            <c:forEach items="${ps}" var="o">
 
                 <tr>
-                    <td>${p.id}</td>
+                    <td>${o.id}</td>
                     <td>
-                        <c:if test="${!empty p.firstProductImage}">
-                            <img width="40px" src="img/productSingle/${p.firstProductImage.id}.jpg">
+                        <c:if test="${!empty o.firstProductImage}">
+                            <img width="40px" src="img/productSingle/${o.firstProductImage.id}.jpg">
                         </c:if>
                     </td>
-                    <td>${p.name}</td>
-                    <td>${p.subTitle}</td>
-                    <td>${p.originalPrice}</td>
-                    <td>${p.promotePrice}</td>
-                    <td>${p.stock}</td>
-                    <td><a href="admin_productImage_list?pid=${p.id}"><span
+                    <td>${o.name}</td>
+                    <td>${o.subTitle}</td>
+                    <td>${o.originalPrice}</td>
+                    <td>${o.promotePrice}</td>
+                    <td>${o.stock}</td>
+                    <td><a href="admin_productImage_list?pid=${o.id}"><span
                             class="glyphicon glyphicon-picture"></span></a>
                     </td>
-                    <td><a href="admin_propertyValue_edit?pid=${p.id}"><span
+                    <td><a href="admin_propertyValue_edit?pid=${o.id}"><span
                             class="glyphicon glyphicon-th-list"></span></a>
                     </td>
                     <td>
-                        <a href="admin_product_edit?id=${p.id}"><span
+                        <a href="admin_product_edit?id=${o.id}"><span
                             class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td><a deleteLink="true"
-                           href="admin_product_delete?id=${p.id}"><span
+                           href="admin_product_delete?id=${o.id}"><span
                             class="glyphicon glyphicon-trash"></span></a>
                     </td>
                 </tr>
