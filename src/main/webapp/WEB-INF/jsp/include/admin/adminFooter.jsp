@@ -4,7 +4,6 @@
 
 <div class="footer">
 </div>
-
-
+    <p style="text-align: center">copyright@2018 by Monochrome</p>
 </body>
 </html>
