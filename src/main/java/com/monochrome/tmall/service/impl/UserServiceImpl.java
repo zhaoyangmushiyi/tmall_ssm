@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class
+UserServiceImpl implements UserService {
 
     @Autowired
     UserMapper userMapper;
@@ -40,5 +41,16 @@ public class UserServiceImpl implements UserService {
         UserExample userExample = new UserExample();
         userExample.setOrderByClause("id desc");
         return userMapper.selectByExample(userExample);
+    }
+
+    @Override
+    public boolean isExist(String name) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andNameEqualTo(name);
+        List<User> users = userMapper.selectByExample(userExample);
+        if (!users.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 }
