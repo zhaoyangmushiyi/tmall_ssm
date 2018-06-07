@@ -128,7 +128,7 @@ div.categoryWithCarousel div.categoryMenu {
     z-index: 1;
 }
 
-div.categoryWithCarousel div.productsAsideCategorys {
+div.categoryWithCarousel div.productsAsideCategories {
     width: 825px;
     height: 510px;
     background-color: white;
@@ -188,22 +188,22 @@ div.categoryWithCarousel div.head {
     display: inline-block;
 }
 
-div.productsAsideCategorys a {
+div.productsAsideCategories a {
     color: #999;
     font-size: 14px;
     margin: 8px;
 }
 
-div.productsAsideCategorys a:hover {
+div.productsAsideCategories a:hover {
     color: #C40000;
     text-decoration: none;
 }
 
-div.productsAsideCategorys div.row {
+div.productsAsideCategories div.row {
     margin: 20px 80px 0px 80px;
 }
 
-div.productsAsideCategorys div.row div.seperator {
+div.productsAsideCategories div.row div.seperator {
     margin-top: 20px;
     border-bottom-style: dashed;
     border-bottom-width: 1px;
@@ -330,7 +330,6 @@ div.footer {
     margin: 0px 0px;
     border-top-style: solid;
     border-top-width: 1px;
-    border-top-color: solid;
     border-top-color: #e7e7e7;
 }
 
@@ -379,7 +378,6 @@ div.copyright {
     background-color: black;
     border-top-style: solid;
     border-top-width: 2px;
-    border-top-color: solid;
     border-top-color: #C40000;
 }
 
@@ -602,7 +600,7 @@ div.productUnit span.productReview {
 div.productUnit a.productLink {
     margin: 10px 0px;
     color: #333333;
-    font: 0.8em;
+    font-size: 0.8em;
     display: block;
 }
 
@@ -614,7 +612,7 @@ div.productUnit a.productLink:hover {
 div.productUnit a.tmallLink {
     margin: 10px 0px;
     color: #999999;
-    font: 0.8em;
+    font-size: 0.8em;
     display: block;
     text-decoration: underline;
 }
@@ -1008,7 +1006,7 @@ span.productReviewTopReviewLinkNumber {
 
 div.productDetailImagesPart img {
     display: block;
-    margin 20px 0px;
+    margin: 20px 0px;
     width: 790px;
 }
 
@@ -1301,13 +1299,13 @@ textarea.leaveMessageTextarea {
 }
 
 span.leaveMessageText {
-    display: inilne-block;
+    display: inline-block;
     margin-right: 10px;
     float: left;
 }
 
 span.leaveMessageTextareaSpan {
-    display: inilne-block;
+    display: inline-block;
 }
 
 div.orderItemTotalSumDiv {
@@ -1593,7 +1591,6 @@ div.cartFoot button {
     background-color: #AAAAAA;
     border: 0px solid #AAAAAA;
     color: white;
-    height: height%;
     width: 120px;
     height: 50px;
     font-size: 20px;

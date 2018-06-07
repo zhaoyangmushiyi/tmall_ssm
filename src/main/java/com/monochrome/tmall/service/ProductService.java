@@ -1,5 +1,6 @@
 package com.monochrome.tmall.service;
 
+import com.monochrome.tmall.pojo.Category;
 import com.monochrome.tmall.pojo.Product;
 
 import java.util.List;
@@ -16,4 +17,11 @@ public interface ProductService {
     List<Product> list(int cid);
 
     void setFirstProductImage(Product product);
+
+    void fill(List<Category> categories);
+
+    void fill(Category category);
+
+    void fillByRow(List<Category> categories);
+
 }
