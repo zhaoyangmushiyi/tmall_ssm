@@ -5,9 +5,7 @@ import com.monochrome.tmall.pojo.Category;
 import com.monochrome.tmall.pojo.Product;
 import com.monochrome.tmall.pojo.ProductExample;
 import com.monochrome.tmall.pojo.ProductImage;
-import com.monochrome.tmall.service.CategoryService;
-import com.monochrome.tmall.service.ProductImageService;
-import com.monochrome.tmall.service.ProductService;
+import com.monochrome.tmall.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +23,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductImageService productImageService;
+
+    @Autowired
+    OrderItemService orderItemService;
+
+    @Autowired
+    ReviewService reviewService;
 
     @Override
     public void add(Product product) {
@@ -109,6 +113,22 @@ public class ProductServiceImpl implements ProductService {
                 productsByRow.add(productsOfEachRow);
             }
             category.setProductsByRow(productsByRow);
+        }
+    }
+
+    @Override
+    public void setSaleAndReviewNumber(Product product) {
+        int saleCount = orderItemService.getSaleCount(product.getId());
+        int reviewCount = reviewService.getCount(product.getId());
+        product.setSaleCount(saleCount);
+        product.setReviewCount(reviewCount);
+    }
+
+    @Override
+    public void setSaleAndReviewNumber(List<Product> products) {
+        for (Product product :
+                products) {
+            setSaleAndReviewNumber(product);
         }
     }
 

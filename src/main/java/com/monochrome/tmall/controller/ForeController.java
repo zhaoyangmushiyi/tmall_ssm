@@ -1,7 +1,6 @@
 package com.monochrome.tmall.controller;
 
-import com.monochrome.tmall.pojo.Category;
-import com.monochrome.tmall.pojo.User;
+import com.monochrome.tmall.pojo.*;
 import com.monochrome.tmall.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +37,9 @@ public class ForeController {
     @Autowired
     OrderItemService orderItemService;
 
+    @Autowired
+    ReviewService reviewService;
+
     @RequestMapping("forehome")
     public String home(Model model) {
         List<Category> categories = categoryService.list();
@@ -72,6 +74,29 @@ public class ForeController {
             return "fore/login";
         }
         return "redirect:/forehome";
+    }
+
+    @RequestMapping("forelogout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:/forehome";
+    }
+
+    @RequestMapping("foreproduct")
+    public String product(int pid, Model model) {
+        Product product = productService.get(pid);
+        List<ProductImage> productSingleImages = productImageService.list(pid, productImageService.type_single);
+        List<ProductImage> productDetailImages = productImageService.list(pid, ProductImageService.type_detail);
+        productService.setFirstProductImage(product);
+        product.setProductSingleImages(productSingleImages);
+        product.setProductDetailImages(productDetailImages);
+        List<PropertyValue> propertyValues = propertyValueService.list(pid);
+        List<Review> reviews = reviewService.list(pid);
+        productService.setSaleAndReviewNumber(product);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("p", product);
+        model.addAttribute("pvs", propertyValues);
+        return "fore/product";
     }
 
 }
