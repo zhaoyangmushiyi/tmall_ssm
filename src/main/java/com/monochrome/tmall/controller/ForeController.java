@@ -1,5 +1,6 @@
 package com.monochrome.tmall.controller;
 
+import com.monochrome.tmall.comparator.*;
 import com.monochrome.tmall.pojo.*;
 import com.monochrome.tmall.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -119,6 +121,34 @@ public class ForeController {
         }
         session.setAttribute("user", user);
         return "success";
+    }
+
+    @RequestMapping("forecategory")
+    public String category(int cid, String sort, Model model) {
+        Category category = categoryService.get(cid);
+        productService.fill(category);
+        productService.setSaleAndReviewNumber(category.getProducts());
+        if (sort != null) {
+            switch (sort) {
+                case "review":
+                    Collections.sort(category.getProducts(), new ProductReviewComparator());
+                    break;
+                case "date":
+                    Collections.sort(category.getProducts(), new ProductDateComparator());
+                    break;
+                case "saleCount":
+                    Collections.sort(category.getProducts(), new ProductSaleCountComparator());
+                    break;
+                case "price":
+                    Collections.sort(category.getProducts(), new ProductPriceComparator());
+                    break;
+                case "all":
+                    Collections.sort(category.getProducts(), new ProductAllComparator());
+                    break;
+            }
+        }
+        model.addAttribute("c", category);
+        return "fore/category";
     }
 
 }
