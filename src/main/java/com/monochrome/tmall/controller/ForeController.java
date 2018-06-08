@@ -1,5 +1,6 @@
 package com.monochrome.tmall.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.monochrome.tmall.comparator.*;
 import com.monochrome.tmall.pojo.*;
 import com.monochrome.tmall.service.*;
@@ -149,6 +150,16 @@ public class ForeController {
         }
         model.addAttribute("c", category);
         return "fore/category";
+    }
+
+    @RequestMapping("foresearch")
+    public String search(String keyword, Model model) {
+
+        PageHelper.offsetPage(0, 20);
+        List<Product> products = productService.search(keyword);
+        productService.setSaleAndReviewNumber(products);
+        model.addAttribute("ps", products);
+        return "fore/searchResult";
     }
 
 }
