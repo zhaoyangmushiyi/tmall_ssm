@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -91,7 +92,6 @@ public class ForeController {
         Product product = productService.get(pid);
         List<ProductImage> productSingleImages = productImageService.list(pid, productImageService.type_single);
         List<ProductImage> productDetailImages = productImageService.list(pid, ProductImageService.type_detail);
-        productService.setFirstProductImage(product);
         product.setProductSingleImages(productSingleImages);
         product.setProductDetailImages(productDetailImages);
         List<PropertyValue> propertyValues = propertyValueService.list(pid);
@@ -160,6 +160,50 @@ public class ForeController {
         productService.setSaleAndReviewNumber(products);
         model.addAttribute("ps", products);
         return "fore/searchResult";
+    }
+
+    @RequestMapping("forebuyone")
+    public String buyone(int pid, int num, HttpSession session) {
+        Product product = productService.get(pid);
+        int oiid = 0;
+        User user = (User) session.getAttribute("user");
+        boolean found = false;
+        List<OrderItem> orderItems = orderItemService.listByUser(user.getId());
+        for (OrderItem orderItem :
+                orderItems) {
+            if (orderItem.getProduct().getId().intValue() == product.getId().intValue()) {
+                orderItem.setNumber(orderItem.getNumber() + num);
+                orderItemService.update(orderItem);
+                found = true;
+                oiid = orderItem.getId();
+                break;
+            }
+        }
+        if (!found) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setUid(user.getId());
+            orderItem.setNumber(num);
+            orderItem.setPid(pid);
+            orderItemService.add(orderItem);
+            oiid = orderItem.getId();
+        }
+        return "redirect:/forebuy?oiid=" + oiid;
+    }
+
+    @RequestMapping("forebuy")
+    public String buy(Model model, String[] oiid, HttpSession session) {
+        List<OrderItem> orderItems = new ArrayList<>();
+        float total = 0;
+        for (String strOiid :
+                oiid) {
+            int id = Integer.parseInt(strOiid);
+            OrderItem orderItem = orderItemService.get(id);
+            total += orderItem.getProduct().getPromotePrice() * orderItem.getNumber();
+            orderItems.add(orderItem);
+        }
+        session.setAttribute("ois", orderItems);
+        model.addAttribute("total", total);
+        return "fore/buy";
     }
 
 }
