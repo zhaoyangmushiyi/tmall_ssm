@@ -78,6 +78,7 @@ public class ForeController {
             model.addAttribute("msg", "账号密码错误");
             return "fore/login";
         }
+        session.setAttribute("user", user);
         return "redirect:/forehome";
     }
 
@@ -239,6 +240,36 @@ public class ForeController {
         List<OrderItem> orderItems = orderItemService.listByUser(user.getId());
         model.addAttribute("ois", orderItems);
         return "fore/cart";
+    }
+
+    @RequestMapping("forechangeOrderItem")
+    @ResponseBody
+    public String changeOrderItem(int pid, int number, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "fail";
+        }
+        List<OrderItem> orderItems = orderItemService.listByUser(user.getId());
+        for (OrderItem orderItem :
+                orderItems) {
+            if (orderItem.getProduct().getId().intValue() == pid) {
+                orderItem.setNumber(number);
+                orderItemService.update(orderItem);
+                break;
+            }
+        }
+        return "success";
+    }
+
+    @RequestMapping("foredeleteOrderItem")
+    @ResponseBody
+    public String deleteOrderItem( Model model,HttpSession session,int oiid){
+        User user =(User)  session.getAttribute("user");
+        if (null == user) {
+            return "fail";
+        }
+        orderItemService.delete(oiid);
+        return "success";
     }
 
 }

@@ -35,6 +35,10 @@
             <mvc:mapping path="/fore*"/>
             <bean class="com.monochrome.tmall.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/fore*"/>
+            <bean class="com.monochrome.tmall.interceptor.OtherInterceptor"/>
+        </mvc:interceptor>
     </mvc:interceptors>
 
 </beans>
