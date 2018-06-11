@@ -75,6 +75,14 @@ public class OrderServiceImpl implements OrderService {
         return total;
     }
 
+    @Override
+    public List<Order> list(int uid, String excludedStatus) {
+        OrderExample orderExample = new OrderExample();
+        orderExample.createCriteria().andUidEqualTo(uid).andStatusNotEqualTo(excludedStatus);
+        orderExample.setOrderByClause("id desc");
+        return orderMapper.selectByExample(orderExample);
+    }
+
     private void setUser(List<Order> orders) {
         for (Order order :
                 orders) {
