@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.monochrome.tmall.comparator.*;
 import com.monochrome.tmall.pojo.*;
 import com.monochrome.tmall.service.*;
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -208,6 +211,7 @@ public class ForeController {
     }
 
     @RequestMapping("foreaddCart")
+    @ResponseBody
     public String addCart(int pid, int num, Model model, HttpSession session) {
 
         Product product = productService.get(pid);
@@ -216,15 +220,15 @@ public class ForeController {
 
         List<OrderItem> ois = orderItemService.listByUser(user.getId());
         for (OrderItem oi : ois) {
-            if(oi.getProduct().getId().intValue()==product.getId().intValue()){
-                oi.setNumber(oi.getNumber()+num);
+            if (oi.getProduct().getId().intValue() == product.getId().intValue()) {
+                oi.setNumber(oi.getNumber() + num);
                 orderItemService.update(oi);
                 found = true;
                 break;
             }
         }
 
-        if(!found){
+        if (!found) {
             OrderItem oi = new OrderItem();
             oi.setUid(user.getId());
             oi.setNumber(num);
@@ -235,8 +239,8 @@ public class ForeController {
     }
 
     @RequestMapping("forecart")
-    public String cart( Model model,HttpSession session) {
-        User user = (User)  session.getAttribute("user");
+    public String cart(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
         List<OrderItem> orderItems = orderItemService.listByUser(user.getId());
         model.addAttribute("ois", orderItems);
         return "fore/cart";
@@ -263,13 +267,35 @@ public class ForeController {
 
     @RequestMapping("foredeleteOrderItem")
     @ResponseBody
-    public String deleteOrderItem( Model model,HttpSession session,int oiid){
-        User user =(User)  session.getAttribute("user");
+    public String deleteOrderItem(Model model, HttpSession session, int oiid) {
+        User user = (User) session.getAttribute("user");
         if (null == user) {
             return "fail";
         }
         orderItemService.delete(oiid);
         return "success";
+    }
+
+    @RequestMapping("forecreateOrder")
+    public String createOrder(Model model, Order order, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(10000);
+        order.setOrderCode(orderCode);
+        order.setUid(user.getId());
+        order.setStatus(OrderService.waitPay);
+        List<OrderItem> orderItems = (List<OrderItem>) session.getAttribute("ois");
+        float total = orderService.add(order, orderItems);
+        return "redirect:/forealipay?oid=" + order.getId() + "&total=" + total;
+    }
+
+    @RequestMapping("forepayed")
+    public String payed(int oid, float total, Model model) {
+        Order order = orderService.get(oid);
+        order.setStatus(OrderService.waitDelivery);
+        order.setPayDate(new Date());
+        orderService.update(order);
+        model.addAttribute("o", order);
+        return "fore/payed";
     }
 
 }
