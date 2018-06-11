@@ -281,6 +281,7 @@ public class ForeController {
         User user = (User) session.getAttribute("user");
         String orderCode = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + RandomUtils.nextInt(10000);
         order.setOrderCode(orderCode);
+        order.setCreateDate(new Date());
         order.setUid(user.getId());
         order.setStatus(OrderService.waitPay);
         List<OrderItem> orderItems = (List<OrderItem>) session.getAttribute("ois");

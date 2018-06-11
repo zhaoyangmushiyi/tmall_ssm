@@ -156,7 +156,7 @@
                                         </a>
                                     </c:if>
                                     <c:if test="${o.status=='waitPay' }">
-                                        <a href="alipay.jsp?oid=${o.id}&total=${o.total}">
+                                        <a href="forealipay?oid=${o.id}&total=${o.total}">
                                             <button class="orderListItemConfirm">付款</button>
                                         </a>
                                     </c:if>
